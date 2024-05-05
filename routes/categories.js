@@ -1,5 +1,8 @@
 const categoriesRouter = require('express').Router();
 
-categoriesRouter.get('/categories', (req, res) => {});
+const findAllGames = require('../middlewares/games');
+const sendAllGames = require('../controllers/games');
+
+categoriesRouter.get('/categories', findAllGames, sendAllGames);
 
 module.exports = categoriesRouter;

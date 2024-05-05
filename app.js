@@ -4,9 +4,11 @@ const path = require('path');
 const usersRouter = require('./routes/users');
 const gamesRouter = require('./routes/games');
 const categoriesRouter = require('./routes/categories');
+const connectToDatabase = require('./database/connect');
 
-const app = express();
 const PORT = 3000;
+connectToDatabase();
+const app = express();
 
 app.use( 
   bodyParser.json(),
