@@ -4,15 +4,6 @@ const findAllUsers = async (req, res, next) => {
   req.usersArray = await users.find({});
   next();
 };
-const findUsersById = async (req, res, next) => {
-  console.log("GET /users/:id");
-  try {
-    req.user = await users.findById(req.params.id);
-    next();
-  } catch (error) {
-    res.status(404).send({ message: "User not found" });
-  }
-};
 
 const createUser = async (req, res, next) => {
   console.log("POST /users");
@@ -28,4 +19,24 @@ const createUser = async (req, res, next) => {
   }
 };
 
-module.exports = {createUser, findAllUsers, findAllUsers};
+const updateUser = async (req, res, next) => {
+  try {
+    req.user = await users.findByIdAndUpdate(req.params.id, req.body);
+    next();
+  } catch (error) {
+    res.setHeader("Content-Type", "application/json");
+    res.status(400).send(JSON.stringify({ message: "Ошибка обновления пользователей" }));
+  }
+};
+
+const deleteUser = async (req, res, next) => {
+  try {
+    req.user = await users.findByIdAndDelete(req.params.id);
+    next();
+  } catch (error) {
+    res.setHeader("Content-Type", "application/json");
+        res.status(400).send(JSON.stringify({ message: "Ошибка удаления пользователя" }));
+  }
+};
+
+module.exports = {createUser, findAllUsers, updateUser, deleteUser};

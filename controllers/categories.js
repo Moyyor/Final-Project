@@ -8,4 +8,14 @@ const sendCategoryCreated = (req, res) => {
   res.end(JSON.stringify(req.game));
 };
 
-module.exports = {sendCategoryCreated, sendAllCategories};
+const sendCategoryUpdated = (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.status(200).send(JSON.stringify({ message: "Category updated" }));
+};
+
+const sendCategoryDeleted = (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(req.game));
+  };
+
+module.exports = {sendCategoryCreated, sendAllCategories, sendCategoryUpdated, sendCategoryDeleted};
