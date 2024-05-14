@@ -1,4 +1,5 @@
 const users = require("../models/user");
+const bcrypt = require("bcryptjs");
 
 const findAllUsers = async (req, res, next) => {
   req.usersArray = await users.find({});
@@ -25,7 +26,9 @@ const updateUser = async (req, res, next) => {
     next();
   } catch (error) {
     res.setHeader("Content-Type", "application/json");
-    res.status(400).send(JSON.stringify({ message: "Ошибка обновления пользователей" }));
+    res
+      .status(400)
+      .send(JSON.stringify({ message: "Ошибка обновления пользователей" }));
   }
 };
 
@@ -35,8 +38,21 @@ const deleteUser = async (req, res, next) => {
     next();
   } catch (error) {
     res.setHeader("Content-Type", "application/json");
-        res.status(400).send(JSON.stringify({ message: "Ошибка удаления пользователя" }));
+    res
+      .status(400)
+      .send(JSON.stringify({ message: "Ошибка удаления пользователя" }));
   }
 };
 
-module.exports = {createUser, findAllUsers, updateUser, deleteUser};
+const hashPassword = async (req, res, next) => {
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(req.body.password, salt);
+    req.body.password = hash;
+    next();
+  } catch (error) {
+    res.status(400).send({ message: "Ошибка хеширования пароля" });
+  }
+};
+
+module.exports = { createUser, findAllUsers, updateUser, deleteUser, hashPassword };

@@ -36,7 +36,7 @@ const deleteGame = async (req, res, next) => {
     next();
   } catch (error) {
     res.setHeader("Content-Type", "application/json");
-        res.status(400).send(JSON.stringify({ message: "Ошибка удаления игры" }));
+    res.status(400).send(JSON.stringify({ message: "Ошибка удаления игры" }));
   }
 };
 
