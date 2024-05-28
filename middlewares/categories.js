@@ -6,9 +6,7 @@ const findAllCategories = async (req, res, next) => {
 };
 
 const createCategory = async (req, res, next) => {
-  console.log("POST /categories");
   try {
-    console.log(req.body);
     req.category = await categories.create(req.body);
     next();
   } catch (error) {
@@ -16,6 +14,16 @@ const createCategory = async (req, res, next) => {
     res
       .status(400)
       .send(JSON.stringify({ message: "Ошибка создания категории" }));
+  }
+};
+
+const findCategoryById = async (req, res, next) => {
+  try {
+    req.category = await categories.findById(req.params.id);
+    next();
+  } catch (error) {
+    res.setHeader("Content-Type", "application/json");
+    res.status(404).send(JSON.stringify({ message: "Категория не найдена" }));
   }
 };
 
@@ -30,13 +38,6 @@ const updateCategory = async (req, res, next) => {
       .send(JSON.stringify({ message: "Ошибка обновления категории" }));
   }
 };
-const checkEmptyName = async (req, res, next) => {
-  if (!req.body.name) {
-    res.status(400).send({ message: "Enter name for category" });
-  } else {
-    next();
-  }
-};
 
 const deleteCategory = async (req, res, next) => {
   try {
@@ -44,8 +45,45 @@ const deleteCategory = async (req, res, next) => {
     next();
   } catch (error) {
     res.setHeader("Content-Type", "application/json");
-        res.status(400).send(JSON.stringify({ message: "Ошибка удаления категории" }));
+    res
+      .status(400)
+      .send(JSON.stringify({ message: "Ошибка удаления категории" }));
   }
 };
 
-module.exports = { createCategory, findAllCategories, updateCategory, checkEmptyName, deleteCategory };
+const checkIsCategoryExists = async (req, res, next) => {
+  const isInArray = req.categoriesArray.find((category) => {
+    return req.body.name === category.name;
+  });
+  if (isInArray) {
+    res.setHeader("Content-Type", "application/json");
+    res.status(400).send(
+      JSON.stringify({
+        message: "Категория с таким названием уже существует",
+      })
+    );
+  } else {
+    next();
+  }
+};
+
+const checkEmptyName = async (req, res, next) => {
+  if (!req.body.name) {
+    res.setHeader("Content-Type", "application/json");
+    res
+      .status(400)
+      .send(JSON.stringify({ message: "Введите название категории" }));
+  } else {
+    next();
+  }
+};
+
+module.exports = {
+  findAllCategories,
+  createCategory,
+  findCategoryById,
+  updateCategory,
+  deleteCategory,
+  checkIsCategoryExists,
+  checkEmptyName,
+};
