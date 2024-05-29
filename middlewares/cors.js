@@ -1,6 +1,9 @@
 const allowedCors = [
   "http://localhost:3000",
-  "https://moyyor.nomorepartiesco.ru", "http://moyyor.nomorepartiesco.ru", "https://moyyor-front.nomorepartiesco.ru", "http://moyyor-front.nomorepartiesco.ru"
+  "https://moyyor.nomorepartiesco.ru",
+  "http://moyyor.nomorepartiesco.ru",
+  "https://moyyor-front.nomorepartiesco.ru",
+  "http://moyyor-front.nomorepartiesco.ru",
 ];
 
 function cors(req, res, next) {
