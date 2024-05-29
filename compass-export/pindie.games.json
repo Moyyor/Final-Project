@@ -34,7 +34,11 @@
   "developer": "IDKWIAm",
   "image": "https://code.s3.yandex.net/teens/pindie-games/gunner/cover.png",
   "link": "https://code.s3.yandex.net/teens/pindie-games/gunner/game/index.html",
-  "users": [],
+  "users": [
+    {
+      "$oid": "6606b19ef99cd7a67132aaf6"
+    }
+  ],
   "categories": [
     {
       "$oid": "65fd4ae18dfd769ce313327d"
